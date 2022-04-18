@@ -13,9 +13,9 @@ const Play: NextPage = () => {
     const [isShaking, startShaking] = useIsShaking();
     const [playerId, setPlayerId] = useState<string>();
 
-    const [tableState, setTableState] = useState<Icon[]>([]);
-    const [handState, setHandState] = useState<Icon[]>([]);
-    const [opponentState, setOpponentState] = useState<{ name?: string; icons?: Icon[] }>({});
+    const [tableState, setTableState] = useState<string[]>([]);
+    const [handState, setHandState] = useState<string[]>([]);
+    const [opponentState, setOpponentState] = useState<{ name?: string; icons?: string[] }>({});
 
     const { tableId } = router.query;
 
@@ -30,15 +30,15 @@ const Play: NextPage = () => {
                 setPlayerId(socket.id);
 
                 networking.onUpdatedIcons((result) => {
-                    debugger;
                     setOpponentState({});
-                    for (const [key, value] of Object.entries(result)) {
-                        if (key === "table") {
+
+                    for (const [playerId, value] of Object.entries(result)) {
+                        if (playerId === "table") {
                             setTableState(result["table"]);
-                        } else if (key === socket.id) {
+                        } else if (playerId === socket.id) {
                             setHandState(result[socket.id]);
                         } else {
-                            setOpponentState({ name: socket.id, icons: result[key] });
+                            setOpponentState({ name: playerId, icons: result[playerId] });
                         }
                     }
                 });
@@ -135,8 +135,7 @@ const styles = {
     },
 };
 
-type Icon = string;
-function isMatchingIcon(icon: Icon, handState: Icon[], tabelState: Icon[]) {
+function isMatchingIcon(icon: string, handState: string[], tabelState: string[]) {
     return handState.includes(icon) && tabelState.includes(icon);
 }
 

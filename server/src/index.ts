@@ -8,7 +8,7 @@ import * as game from "./game";
 const httpServer = createServer();
 const io = new Server(httpServer, {
     cors: {
-        origin: "http://localhost:1337",
+        origin: "*",
         methods: ["GET", "POST"],
     },
 });
@@ -54,10 +54,10 @@ io.on("connection", (socket) => {
 
         console.log("attempt to solve", icon, tableId);
 
-        game.isMatchingIcon(icon, rooms[tableId][socket.id], rooms[tableId].table);
-
-        rooms[tableId] = game.getIcons(getPlayerIds(tableId));
-        io.to(tableId).emit("updatedIcons", rooms[tableId]);
+        if (game.isMatchingIcon(icon, rooms[tableId][socket.id], rooms[tableId].table)) {
+            rooms[tableId] = game.getIcons(getPlayerIds(tableId));
+            io.to(tableId).emit("updatedIcons", rooms[tableId]);
+        }
     });
 
     socket.on("disconnect", () => {

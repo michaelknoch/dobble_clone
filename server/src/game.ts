@@ -21,7 +21,7 @@ const ALL_ICONS = [
     "🧘🏻‍♀️",
     "🏂🏼",
 ] as const;
-const AMOUNT_OF_ICONS = 5;
+const AMOUNT_OF_ICONS = 8;
 
 export type Icon = typeof ALL_ICONS[number];
 

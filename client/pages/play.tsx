@@ -54,7 +54,9 @@ const Play: NextPage = () => {
                                 onClick={() => {
                                     const isMatching = isMatchingIcon(icon, handState, tableState);
                                     if (isMatching) {
-                                        let diff = (new Date() - startedAt.current) / 1000;
+                                        let diff =
+                                            (new Date().getTime() - startedAt.current.getTime()) /
+                                            1000;
                                         alert(diff);
                                         nextRound();
                                     } else {

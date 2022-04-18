@@ -1,0 +1,24 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon",
+    "start": "nodemon",
+    "build": "ts-node index.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "http": "^0.0.1-security",
+    "lodash.shuffle": "^4.2.0",
+    "socket.io": "^4.4.1"
+  },
+  "devDependencies": {
+    "@types/lodash.shuffle": "^4.2.6",
+    "nodemon": "^2.0.15",
+    "prettier": "^2.6.2",
+    "ts-node": "^10.7.0"
+  }
+}

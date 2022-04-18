@@ -28,6 +28,16 @@ function getPlayerIds(roomId: string) {
     return playerIds.filter((id) => id !== "table");
 }
 
+function getTableIdForPlayerId(playerId: string): string | undefined {
+    for (const [tableId, roomState] of Object.entries(rooms)) {
+        if (roomState[playerId]) {
+            return tableId;
+        }
+    }
+
+    return undefined;
+}
+
 io.on("connection", (socket) => {
     console.log("connection", socket.id);
 
@@ -52,6 +62,16 @@ io.on("connection", (socket) => {
 
     socket.on("disconnect", () => {
         console.log("user disconnected", socket.id);
+
+        const tableId = getTableIdForPlayerId(socket.id);
+        console.log("disconnect table", tableId);
+
+        if (tableId) {
+            delete rooms[tableId][socket.id];
+
+            rooms[tableId] = game.getIcons(getPlayerIds(tableId));
+            io.to(tableId).emit("updatedIcons", rooms[tableId]);
+        }
     });
 });
 

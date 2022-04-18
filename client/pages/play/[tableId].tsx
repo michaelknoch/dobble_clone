@@ -30,6 +30,8 @@ const Play: NextPage = () => {
                 setPlayerId(socket.id);
 
                 networking.onUpdatedIcons((result) => {
+                    debugger;
+                    setOpponentState({});
                     for (const [key, value] of Object.entries(result)) {
                         if (key === "table") {
                             setTableState(result["table"]);
